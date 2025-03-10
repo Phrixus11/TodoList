@@ -7,24 +7,25 @@ import {FilterValuesType} from "../App.tsx";
 type TodolistItemPropsType = {
     title: string
     tasks: TaskType[]
-    deleteTask: (id: number) => void
+    deleteTask: (id: string) => void
     changeTodolistFilter: (newFilterValue: FilterValuesType) => void
+    createTasks: (title: string) => void
 }
 
 export type TaskType = {
-    id: number
+    id: string
     title: string
     isDone: boolean
 }
 
-export const TodolistItem = ({title, tasks, deleteTask, changeTodolistFilter}: TodolistItemPropsType) => {
+export const TodolistItem = ({title, tasks, deleteTask, changeTodolistFilter, createTasks}: TodolistItemPropsType) => {
 
     // const { title, subTitle, description, tasks } = props // один из вариантов деструктуризации проксов
 
     return (
         <div>
             <TodoListTitle title={title}/>
-            <AddTaskForm/>
+            <AddTaskForm createTasks={createTasks}/>
             <TaskList tasks={tasks} deleteTask={deleteTask} />
             <FilterButton changeTodolistFilter={changeTodolistFilter}/>
         </div>

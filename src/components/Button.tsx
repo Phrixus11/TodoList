@@ -1,10 +1,10 @@
 type ButtonProps = {
     title: string
-    changeTodolistFilter?: () => void
+    onClickHandler?: () => void;
 }
 
-export const Button = ({title, changeTodolistFilter}: ButtonProps) => {
+export const Button = ({title, onClickHandler  }: ButtonProps) => {
     return (
-        <button onClick={changeTodolistFilter}>{title}</button>
+        <button onClick={onClickHandler}>{title}</button>
     );
 };

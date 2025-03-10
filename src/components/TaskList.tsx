@@ -2,7 +2,7 @@ import {TaskType} from "./TodolistItem.tsx";
 
 type TaskListPropsType = {
     tasks: TaskType[]
-    deleteTask: (id: number) => void
+    deleteTask: (id: string) => void
 }
 
 export const TaskList = ({tasks, deleteTask}: TaskListPropsType) => {
