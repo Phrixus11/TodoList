@@ -10,6 +10,8 @@ type TodolistItemPropsType = {
     deleteTask: (id: string) => void
     changeTodolistFilter: (newFilterValue: FilterValuesType) => void
     createTasks: (title: string) => void
+    changeTaskStatus:(id: string, newIsDoneStatus:boolean) => void
+    activeFilter: FilterValuesType
 }
 
 export type TaskType = {
@@ -18,16 +20,16 @@ export type TaskType = {
     isDone: boolean
 }
 
-export const TodolistItem = ({title, tasks, deleteTask, changeTodolistFilter, createTasks}: TodolistItemPropsType) => {
+export const TodolistItem = ({title, tasks, deleteTask, changeTodolistFilter, createTasks, changeTaskStatus, activeFilter}: TodolistItemPropsType) => {
 
     // const { title, subTitle, description, tasks } = props // один из вариантов деструктуризации проксов
 
     return (
         <div>
             <TodoListTitle title={title}/>
-            <AddTaskForm createTasks={createTasks}/>
-            <TaskList tasks={tasks} deleteTask={deleteTask} />
-            <FilterButton changeTodolistFilter={changeTodolistFilter}/>
+            <AddTaskForm maxTitleLength={12} createTasks={createTasks}/>
+            <TaskList changeTaskStatus={changeTaskStatus} tasks={tasks} deleteTask={deleteTask} />
+            <FilterButton activeFilter={activeFilter} changeTodolistFilter={changeTodolistFilter}/>
         </div>
     );
 };

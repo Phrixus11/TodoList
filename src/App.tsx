@@ -16,6 +16,7 @@ export const App = () => {
         {id: v1(), title: 'HTML&CSS', isDone: true},
         {id: v1(), title: 'JS', isDone: true},
         {id: v1(), title: 'ReactJS', isDone: false},
+        {id: v1(), title: 'Redux-toolkit', isDone: false},
     ])
 
     // const tasks2: Array<TaskType> = [
@@ -55,13 +56,32 @@ export const App = () => {
         setFilter(newFilterValue)
     }
 
+
+    //update checkbox
+    const changeTaskStatus = (id: string, newIsDoneStatus:boolean) => {
+        const nextState: TaskType[] = tasks.map(t=>t.id===id? {...t, isDone: newIsDoneStatus } : t)
+            setTasks(nextState)
+    }
+
+    // const nextState: TaskType[] = tasks.map(t=>t.id===t.id? t.isDone = !t.isDone  : t)
+    console.log(tasks)
+    // const changeTaskStatus = (taskId: string, isDone: boolean) => {
+    //     const task = tasks.find(t => t.id === taskId)
+    //     if (task) {
+    //         task.isDone = isDone  //todo: мутабельное изменение элемента массива, не лучшее решение
+    //         setTasks([...tasks]) // а тут поверхностная копия
+    //     }
+    // }
+
     return (
         <div className="app">
             <TodolistItem title={todoListTitle_1}
                           tasks={filteredTasks}
                           deleteTask={deleteTask}
                           changeTodolistFilter={changeTodolistFilter}
-                          createTasks={createTasks}/>
+                          createTasks={createTasks}
+                          changeTaskStatus={changeTaskStatus}
+                          activeFilter={filter}/>
 
             {/*<TodolistItem title={todoListTitle_2} tasks={tasks2} />*/}
         </div>
