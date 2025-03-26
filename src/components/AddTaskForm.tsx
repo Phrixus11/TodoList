@@ -14,19 +14,12 @@ export const AddTaskForm = ({createTasks, maxTitleLength}: AddTaskFormProps) => 
 
 
     const createTaskHandler = () => {
-
-        // if (taskInput) {
-        //     createTasks(taskInput.trim())
-        //     setTaskInput("")
-        // }
         if (taskInput.trim() !== "") {
             createTasks(taskInput.trim())
             setTaskInput("")
-
         } else {
             setError(true)
         }
-
     }
     const setTaskInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
         error && setError(false)

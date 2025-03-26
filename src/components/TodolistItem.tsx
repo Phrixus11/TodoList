@@ -5,13 +5,15 @@ import {FilterButton} from "./FilterButton.tsx";
 import {FilterValuesType} from "../App.tsx";
 
 type TodolistItemPropsType = {
+    todolistId: string
     title: string
     tasks: TaskType[]
-    deleteTask: (id: string) => void
-    changeTodolistFilter: (newFilterValue: FilterValuesType) => void
-    createTasks: (title: string) => void
-    changeTaskStatus:(id: string, newIsDoneStatus:boolean) => void
     activeFilter: FilterValuesType
+    deleteTask: (id: string, todolistId: string) => void
+    changeTodolistFilter: (newFilterValue: FilterValuesType, todolistId: string) => void
+    createTasks: (title: string, todolistId: string) => void
+    changeTaskStatus: (id: string, newIsDoneStatus: boolean, todolistId: string) => void
+    deleteTodolist: (todolistId: string) => void
 }
 
 export type TaskType = {
@@ -20,16 +22,46 @@ export type TaskType = {
     isDone: boolean
 }
 
-export const TodolistItem = ({title, tasks, deleteTask, changeTodolistFilter, createTasks, changeTaskStatus, activeFilter}: TodolistItemPropsType) => {
+export const TodolistItem = ({
+                                 title,
+                                 tasks,
+                                 deleteTask,
+                                 changeTodolistFilter,
+                                 createTasks,
+                                 changeTaskStatus,
+                                 activeFilter,
+                                 todolistId,
+                                 deleteTodolist
+                             }: TodolistItemPropsType) => {
 
     // const { title, subTitle, description, tasks } = props // один из вариантов деструктуризации проксов
 
+    const deleteTodolistHandler = () => {
+        deleteTodolist(todolistId)
+    }
+    const createTaskHandler = (title: string) => {
+        createTasks(title, todolistId)
+    }
+    const changeTaskStatusHandler = (taskId: string, newIsDoneStatus: boolean) => {
+        changeTaskStatus(taskId, newIsDoneStatus, todolistId)
+    }
+    const deleteTaskHandler = (taskId: string) => {
+        deleteTask(taskId, todolistId)
+    }
+    const changeTodolistFilterHandler = (newFilterValue: FilterValuesType) => {
+        changeTodolistFilter(newFilterValue, todolistId)
+    }
+
     return (
         <div>
-            <TodoListTitle title={title}/>
-            <AddTaskForm maxTitleLength={12} createTasks={createTasks}/>
-            <TaskList changeTaskStatus={changeTaskStatus} tasks={tasks} deleteTask={deleteTask} />
-            <FilterButton activeFilter={activeFilter} changeTodolistFilter={changeTodolistFilter}/>
+            <TodoListTitle title={title} deleteTodolist={deleteTodolistHandler}/>
+            <AddTaskForm maxTitleLength={12} createTasks={createTaskHandler}/>
+            <TaskList changeTaskStatus={changeTaskStatusHandler}
+                      tasks={tasks}
+                      deleteTask={deleteTaskHandler}/>
+            <FilterButton
+                activeFilter={activeFilter}
+                changeTodolistFilter={changeTodolistFilterHandler}/>
         </div>
     );
 };
