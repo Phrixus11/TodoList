@@ -1,5 +1,5 @@
 import {TodoListTitle} from "./TodoListTitle.tsx";
-import {AddTaskForm} from "./AddTaskForm.tsx";
+import {AddItemForm} from "./AddItemForm.tsx";
 import {TaskList} from "./TaskList.tsx";
 import {FilterButton} from "./FilterButton.tsx";
 import {FilterValuesType} from "../App.tsx";
@@ -14,6 +14,8 @@ type TodolistItemPropsType = {
     createTasks: (title: string, todolistId: string) => void
     changeTaskStatus: (id: string, newIsDoneStatus: boolean, todolistId: string) => void
     deleteTodolist: (todolistId: string) => void
+    changeTaskTitle: (id: string, title: string, todolistId: string) => void
+    changeTodoListTitle: (newTitle: string, todolistId: string) => void
 }
 
 export type TaskType = {
@@ -31,7 +33,9 @@ export const TodolistItem = ({
                                  changeTaskStatus,
                                  activeFilter,
                                  todolistId,
-                                 deleteTodolist
+                                 deleteTodolist,
+                                 changeTaskTitle,
+                                 changeTodoListTitle
                              }: TodolistItemPropsType) => {
 
     // const { title, subTitle, description, tasks } = props // один из вариантов деструктуризации проксов
@@ -45,6 +49,7 @@ export const TodolistItem = ({
     const changeTaskStatusHandler = (taskId: string, newIsDoneStatus: boolean) => {
         changeTaskStatus(taskId, newIsDoneStatus, todolistId)
     }
+
     const deleteTaskHandler = (taskId: string) => {
         deleteTask(taskId, todolistId)
     }
@@ -52,13 +57,25 @@ export const TodolistItem = ({
         changeTodolistFilter(newFilterValue, todolistId)
     }
 
+    const changeTaskTitleHandler = (id: string, title: string, )=> {
+        changeTaskTitle(id,title,todolistId)
+    }
+    const changeTodoListTitleHandler = (newTitle: string) => {
+        changeTodoListTitle(newTitle,todolistId)
+    }
+
     return (
         <div>
-            <TodoListTitle title={title} deleteTodolist={deleteTodolistHandler}/>
-            <AddTaskForm maxTitleLength={12} createTasks={createTaskHandler}/>
+            <TodoListTitle
+                title={title}
+                deleteTodolist={deleteTodolistHandler}
+                changeTitle={changeTodoListTitleHandler}
+            />
+            <AddItemForm maxTitleLength={12} createItems={createTaskHandler}/>
             <TaskList changeTaskStatus={changeTaskStatusHandler}
                       tasks={tasks}
-                      deleteTask={deleteTaskHandler}/>
+                      deleteTask={deleteTaskHandler}
+                      changeTaskTitle={changeTaskTitleHandler}/>
             <FilterButton
                 activeFilter={activeFilter}
                 changeTodolistFilter={changeTodolistFilterHandler}/>
