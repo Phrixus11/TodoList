@@ -1,5 +1,6 @@
-import {Button} from "./Button.tsx";
+import Button from "@mui/material/Button";
 import {FilterValuesType} from "../App.tsx";
+import Box from "@mui/material/Box";
 
 
 type FilterButtonProps = {
@@ -7,14 +8,29 @@ type FilterButtonProps = {
     activeFilter: FilterValuesType
 }
 
-export const FilterButton = ({changeTodolistFilter, activeFilter}:FilterButtonProps) => {
+export const FilterButton = ({changeTodolistFilter, activeFilter}: FilterButtonProps) => {
 
     return (
-        <div>
-            <Button className={ activeFilter === "All"?'btn-filter-active': ''} title={'All'} onClickHandler={()=>changeTodolistFilter('All')} />
-            <Button className={ activeFilter === "Active" ? 'btn-filter-active' : ''} title={'Active'} onClickHandler={()=>changeTodolistFilter('Active')}/>
-            <Button className={ activeFilter === "Completed" ? 'btn-filter-active' : ''} title={'Completed'} onClickHandler={()=>changeTodolistFilter('Completed')}/>
-        </div>
+        <Box sx={{display: "flex", justifyContent: "space-between"}}>
+            <Button
+                size={'small'}
+                disableElevation variant={'contained'}
+                color={activeFilter === "All" ? 'secondary' : 'primary'}
+
+                onClick={() => changeTodolistFilter('All')}>All</Button>
+            <Button
+                size={'small'}
+                disableElevation
+                variant={'contained'}
+                color={activeFilter === "Active" ? 'secondary' : 'primary'}
+                onClick={() => changeTodolistFilter('Active')}>Active</Button>
+            <Button
+                size={'small'}
+                disableElevation
+                variant={'contained'}
+                color={activeFilter === "Completed" ? 'secondary' : 'primary'}
+                onClick={() => changeTodolistFilter('Completed')}>Completed</Button>
+        </Box>
     );
 };
 

@@ -1,5 +1,7 @@
-import {Button} from "./Button.tsx";
 import {useState, KeyboardEvent, ChangeEvent} from "react";
+import TextField from "@mui/material/TextField";
+import IconButton from "@mui/material/IconButton";
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
 
 type AddItemFormProps = {
@@ -35,18 +37,23 @@ export const AddItemForm = ({createItems, maxTitleLength}: AddItemFormProps) => 
 
     return (
         <div>
-            <input placeholder={`max ${maxTitleLength} symbols`}
-                   value={itemInput}
-                   onChange={setItemInputHandler}
-                   onKeyDown={onKeyDownItemHandler}
-                   className={error ? "error" : ""}/>
+            <TextField label={`max ${maxTitleLength} symbols`}
+                       value={itemInput}
+                       onChange={setItemInputHandler}
+                       onKeyDown={onKeyDownItemHandler}
+                       variant={"outlined"}
+                       size={"small"}
+                       error={error || itemInput.length > maxTitleLength}
+                       helperText={error && 'enter valid title'}
+            />
 
-            <Button isDisabled={isAddButtonDisabled}
-                    onClickHandler={createItemHandler}
-                    title={'+'}/>
+            <IconButton
+                aria-label="add"
+                disabled={isAddButtonDisabled}
+                onClick={createItemHandler}>
+                <AddCircleOutlineIcon color="primary" />
+            </IconButton>
 
-            {itemInput.length > maxTitleLength && <div style={{color: "red"}}>max {maxTitleLength} symbols</div>}
-            {error && <div style={{color: "red"}}>enter valid title</div>}
         </div>
     );
 };
