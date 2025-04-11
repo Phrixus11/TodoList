@@ -28,13 +28,12 @@ export const TaskList = ({tasks, deleteTask, changeTaskStatus, changeTaskTitle}:
                     return (
                         <ListItem key={t.id} disablePadding sx={getListItemSx(t.isDone)}>
                             <Box>
-
                                 <Checkbox
                                     checked={t.isDone}
                                     onChange={(e) => changeTaskStatus(t.id, e.currentTarget.checked)}
                                     size={"small"}/>
-                                <EditableSpan title={t.title}
-                                    // classes={TaskClass}
+                                <EditableSpan maxTitleLength={12}
+                                              title={t.title}
                                               changeTitleHandler={changeTaskTitleHandler}/>
                             </Box>
                             <IconButton size={"small"}

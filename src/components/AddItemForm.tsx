@@ -44,7 +44,7 @@ export const AddItemForm = ({createItems, maxTitleLength}: AddItemFormProps) => 
                        variant={"outlined"}
                        size={"small"}
                        error={error || itemInput.length > maxTitleLength}
-                       helperText={error && 'enter valid title'}
+                       helperText={error || itemInput.length > maxTitleLength && 'enter valid title'}
             />
 
             <IconButton

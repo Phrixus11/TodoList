@@ -3,19 +3,12 @@ import {TaskType, TodolistItem} from "./components/TodolistItem.tsx";
 import {useState} from "react";
 import {v1} from "uuid";
 import {AddItemForm} from "./components/AddItemForm.tsx";
-import AppBar from '@mui/material/AppBar'
-import Toolbar from '@mui/material/Toolbar'
-import IconButton from '@mui/material/IconButton'
-import MenuIcon from '@mui/icons-material/Menu'
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Paper from "@mui/material/Paper";
-import Box from "@mui/material/Box";
-import {NavButton} from "./components/NavButton.tsx";
-
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import {lime, purple} from "@mui/material/colors";
-import {CssBaseline, Switch} from "@mui/material";
+import {createTheme, ThemeProvider} from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import {MenuAppBar} from "./components/MenuAppBar.tsx";
 
 export type FilterValuesType = "All" | "Active" | "Completed"
 
@@ -141,34 +134,30 @@ export const App = () => {
 
     const [isDarkMode, setIsDarkMode] = useState(false)
 
-const theme = createTheme({
-    palette: {
-        primary: lime,
-        secondary: purple,
-        mode: isDarkMode ? 'dark' : 'light',
-    },
-})
+    // const theme = createTheme({
+    //     palette: {
+    //         primary:  lime,
+    //         secondary: purple,
+    //         mode: isDarkMode ? 'dark' : 'light',
+    //     },
+    // })
 
+    const theme = createTheme({
+        palette: {
+            primary:  {
+                main: "#20a399"
+            },
+            // secondary: purple,
+            mode: isDarkMode ? 'dark' : 'light',
+        },
+    })
+
+// <CssBaseline/>  - комппонент, скидывающий базовые стили CSS
     return (
         <div className="app">
             <ThemeProvider theme={theme}>
                 <CssBaseline/>
-                <AppBar position="static">
-                    <Toolbar>
-                        <Container sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-                            <IconButton color="inherit">
-                                <MenuIcon/>
-                            </IconButton>
-
-                            <Box>
-                                <NavButton background={theme.palette.secondary.light}>Sign in</NavButton>
-                                <NavButton>Sign up</NavButton>
-                                <NavButton>Faq</NavButton>
-                                <Switch onChange={()=>setIsDarkMode(!isDarkMode)}/>
-                            </Box>
-                        </Container>
-                    </Toolbar>
-                </AppBar>
+                <MenuAppBar setIsDarkMode={() => setIsDarkMode(!isDarkMode)} />
                 <Container maxWidth="lg">
                     <Grid container sx={{p: '20px 0'}}>
                         <AddItemForm createItems={createTodolist} maxTitleLength={20}/>

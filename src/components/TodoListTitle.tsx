@@ -11,7 +11,7 @@ type TodoListTitlePropsType = {
 export const TodoListTitle = ({title, deleteTodolist, changeTitle}: TodoListTitlePropsType) => {
     return (
         <h3>
-            <EditableSpan title={title} changeTitleHandler={changeTitle}/>
+            <EditableSpan maxTitleLength={20} title={title} changeTitleHandler={changeTitle}/>
 
             <IconButton
                 aria-label="delete"

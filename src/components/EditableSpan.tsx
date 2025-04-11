@@ -4,17 +4,18 @@ import TextField from "@mui/material/TextField";
 type EditableSpanPropsType = {
     title: string
     classes?: string
-    changeTitleHandler: (title: string)=>void
+    changeTitleHandler: (title: string) => void
+    maxTitleLength: number
 
 };
-export const EditableSpan = ({title, classes, changeTitleHandler}: EditableSpanPropsType) => {
+export const EditableSpan = ({title, classes, changeTitleHandler, maxTitleLength}: EditableSpanPropsType) => {
     const [titleInput, setTitleInput] = useState(title);
     const [isEditMode, setIsEditMode] = useState<boolean>(false);
     const onEditMode = () => {
         setIsEditMode(true);
     }
     const offEditMode = () => {
-        if (titleInput.trim() !== "") {
+        if (titleInput.trim() !== "" && titleInput.trim().length <= maxTitleLength) {
             setIsEditMode(false);
             changeTitleHandler(titleInput)
         }
@@ -29,7 +30,9 @@ export const EditableSpan = ({title, classes, changeTitleHandler}: EditableSpanP
                 onBlur={offEditMode}
                 value={titleInput}
                 variant="standard"
-                autoFocus onChange={setTitleInputHandler}/>
+                autoFocus onChange={setTitleInputHandler}
+                error={titleInput.trim().length > maxTitleLength}
+                helperText={titleInput.trim().length > maxTitleLength && `max length ${maxTitleLength} symbols.`}/>
             : <span className={classes} onDoubleClick={onEditMode}>{title}</span>
     )
 };
