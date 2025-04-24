@@ -1,6 +1,5 @@
-import {v1} from 'uuid'
 import {beforeEach, expect, test} from 'vitest'
-import {TodolistType} from "../App.tsx";
+import {TodolistType} from "../app/App.tsx";
 import {
     changeTodolistFilterAC,
     changeTodolistTitleAC,
@@ -8,6 +7,7 @@ import {
     deleteTodolistAC,
     todolistsReducer
 } from "./todolists-reducer.ts";
+import { nanoid } from '@reduxjs/toolkit/react';
 
 
 let todolistId1: string
@@ -15,8 +15,8 @@ let todolistId2: string
 let startState: TodolistType[] = []
 
 beforeEach(() => {
-    todolistId1 = v1()
-    todolistId2 = v1()
+    todolistId1 = nanoid()
+    todolistId2 = nanoid()
 
     startState = [
         { id: todolistId1, title: 'What to learn', filter: 'All' },
@@ -39,7 +39,7 @@ test('correct todolist should be deleted', () => {
     // const action = DeleteTodolistAC(todolistId1)
 
     // создание action, напрямую в параметре редьюсера
-    const endState = todolistsReducer(startState, deleteTodolistAC(todolistId1))
+    const endState = todolistsReducer(startState, deleteTodolistAC({todolistId: todolistId1}))
 
     // Проверка, что действие измененило state соответствующим образом
     // в массиве останется один тудулист
@@ -51,7 +51,7 @@ test('correct todolist should be deleted', () => {
 test('correct todolist should be created', () => {
 
     const title = 'New todolist'
-    const endState = todolistsReducer(startState, createTodolistAC(title, v1()))
+    const endState = todolistsReducer(startState, createTodolistAC(title))
 
     expect(endState.length).toBe(3)
     expect(endState[2].title).toBe(title)

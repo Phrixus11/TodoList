@@ -1,8 +1,7 @@
-import { beforeEach, expect, test } from 'vitest'
+import {beforeEach, expect, test} from 'vitest'
 import {changeTaskStatusAC, changeTaskTitleAC, createTaskAC, deleteTaskAC, tasksReducer} from "./tasks-reducer.ts";
 import {createTodolistAC, deleteTodolistAC} from "./todolists-reducer.ts";
-import {v1} from "uuid";
-import {TaskStateType} from "../App.tsx";
+import {TaskStateType} from "../app/App.tsx";
 
 let startState: TaskStateType = {}
 
@@ -22,7 +21,7 @@ beforeEach(() => {
 })
 
 test('array should be created for new todolist', () => {
-    const endState = tasksReducer(startState, createTodolistAC('New todolist', v1()))
+    const endState = tasksReducer(startState, createTodolistAC('New todolist'))
 
     const keys = Object.keys(endState)
     const newKey = keys.find(k => k !== 'todolistId1' && k !== 'todolistId2')
@@ -35,7 +34,7 @@ test('array should be created for new todolist', () => {
 })
 
 test('property with todolistId should be deleted', () => {
-    const endState = tasksReducer(startState, deleteTodolistAC('todolistId2'))
+    const endState = tasksReducer(startState, deleteTodolistAC({todolistId: 'todolistId2'}))
 
     const keys = Object.keys(endState)
 
@@ -83,7 +82,7 @@ test('correct task should be created at correct array', () => {
 test('correct task should change its status', () => {
     const endState = tasksReducer(
         startState,
-        changeTaskStatusAC({ todolistId: 'todolistId2', taskId: '2', isDone: false })
+        changeTaskStatusAC({ todolistId: 'todolistId2', taskId: '2', newIsDone: false })
     )
 
     expect(endState.todolistId2.length).toBe(3)
@@ -94,7 +93,7 @@ test('correct task should change its status', () => {
 test('correct task should change its title', () => {
     const endState = tasksReducer(
         startState,
-        changeTaskTitleAC({ todolistId: 'todolistId2', taskId: '2', title: 'juice' })
+        changeTaskTitleAC({ todolistId: 'todolistId2', taskId: '2', newTitle: 'juice' })
     )
 
     expect(endState.todolistId2[1].title).toBe('juice')

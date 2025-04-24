@@ -2,7 +2,7 @@ import {TodoListTitle} from "./TodoListTitle.tsx";
 import {AddItemForm} from "./AddItemForm.tsx";
 import {TaskList} from "./TaskList.tsx";
 import {FilterButton} from "./FilterButton.tsx";
-import {FilterValuesType} from "../App.tsx";
+import {FilterValuesType} from "../app/App.tsx";
 
 type TodolistItemPropsType = {
     todolistId: string
