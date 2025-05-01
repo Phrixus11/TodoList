@@ -1,5 +1,5 @@
 import {TodoListTitle} from "./TodoListTitle/TodoListTitle.tsx";
-import {AddItemForm} from "../../../../../common/components/AddItemForm/AddItemForm.tsx";
+import {AddItemForm} from "@/common/components/AddItemForm/AddItemForm";
 import {Tasks} from "@/features/todolists/ui/Todolists/TodolistItem/Tasks/Tasks.tsx";
 import {FilterButton} from "./FilterButton/FilterButton.tsx";
 import {TodolistType} from "@/features/todolists/model/todolists-reducer.ts";
