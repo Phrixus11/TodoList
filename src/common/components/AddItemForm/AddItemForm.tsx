@@ -46,12 +46,11 @@ export const AddItemForm = ({createItems, maxTitleLength}: AddItemFormProps) => 
                        error={error || itemInput.length > maxTitleLength}
                        helperText={error || itemInput.length > maxTitleLength && 'enter valid title'}
             />
-
             <IconButton
                 aria-label="add"
                 disabled={isAddButtonDisabled}
                 onClick={createItemHandler}>
-                <AddCircleOutlineIcon color="primary" />
+                <AddCircleOutlineIcon color="primary"/>
             </IconButton>
 
         </div>

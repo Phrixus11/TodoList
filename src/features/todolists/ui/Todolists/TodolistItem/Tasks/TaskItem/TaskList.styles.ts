@@ -1,6 +1,6 @@
 import {SxProps} from "@mui/material";
 
-export const stylesListItem: SxProps = {justifyContent: 'space-between', }
+// export const stylesListItem: SxProps = {justifyContent: 'space-between', }
 
 export const getListItemSx = (isDone: boolean): SxProps => ({
     p: 0,
