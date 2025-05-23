@@ -2,13 +2,13 @@ import {TodoListTitle} from "./TodoListTitle/TodoListTitle.tsx";
 import {AddItemForm} from "@/common/components/AddItemForm/AddItemForm";
 import {Tasks} from "@/features/todolists/ui/Todolists/TodolistItem/Tasks/Tasks.tsx";
 import {FilterButton} from "./FilterButton/FilterButton.tsx";
-import {TodolistType} from "@/features/todolists/model/todolists-reducer.ts";
-import {createTaskAC} from "@/features/todolists/model/tasks-reducer.ts";
+import {type DomainTodolist} from "@/features/todolists/model/todolists-slice.ts";
+import {createTaskAC} from "@/features/todolists/model/tasks-slice.ts";
 import {useAppDispatch} from "@/common/hooks/useAppDispatch.ts";
 
 
 type TodolistItemPropsType = {
-    todolist: TodolistType
+    todolist: DomainTodolist
 }
 
 

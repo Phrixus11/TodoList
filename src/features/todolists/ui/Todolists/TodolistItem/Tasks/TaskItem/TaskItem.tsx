@@ -5,13 +5,13 @@ import {EditableSpan} from "@/common/components/EditableSpan/EditableSpan.tsx";
 import IconButton from "@mui/material/IconButton";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import ListItem from "@mui/material/ListItem";
-import {changeTaskStatusAC, changeTaskTitleAC, deleteTaskAC, type TaskType} from "@/features/todolists/model/tasks-reducer.ts";
+import {changeTaskStatusAC, changeTaskTitleAC, deleteTaskAC, type TaskType} from "@/features/todolists/model/tasks-slice.ts";
 import {ChangeEvent} from "react";
 import {useAppDispatch} from "@/common/hooks/useAppDispatch.ts";
-import {TodolistType} from "@/features/todolists/model/todolists-reducer.ts";
+import {type DomainTodolist} from "@/features/todolists/model/todolists-slice.ts";
 
 type Props = {
-  todolist: TodolistType
+  todolist: DomainTodolist
   task: TaskType
 };
 export const TaskItem = ({todolist, task}: Props) => {

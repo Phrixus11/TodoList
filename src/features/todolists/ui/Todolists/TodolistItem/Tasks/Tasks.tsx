@@ -1,13 +1,13 @@
 import List from "@mui/material/List";
-import {TaskType} from "@/features/todolists/model/tasks-reducer";
+import {selectTasks, TaskType} from "@/features/todolists/model/tasks-slice";
 import {useAppSelector} from "@/common/hooks/useAppSelector";
-import {selectTasks} from "@/features/todolists/model/tasks-selectors";
-import {TodolistType} from "@/features/todolists/model/todolists-reducer";
+
+import {type DomainTodolist} from "@/features/todolists/model/todolists-slice";
 import {TaskItem} from "./TaskItem/TaskItem";
 
 
 type TaskListPropsType = {
-  todolist: TodolistType
+  todolist: DomainTodolist
 }
 
 export const Tasks = ({todolist}: TaskListPropsType) => {
@@ -23,10 +23,10 @@ export const Tasks = ({todolist}: TaskListPropsType) => {
         filteredTasks = tasks[id].filter((task: TaskType) => task.isDone)
       }
 
-      const tasksList = filteredTasks.length === 0 ?
+      const tasksList = filteredTasks?.length === 0 ?
           <span>Ваш список пуст</span> :
           <List>
-            {filteredTasks.map(t => (
+            {filteredTasks?.map(t => (
                 <TaskItem key={t.id} task={t} todolist={todolist}/>
             ))}
           </List>

@@ -8,9 +8,9 @@ import Switch from "@mui/material/Switch";
 import AppBar from "@mui/material/AppBar";
 import {useTheme} from "@mui/material/styles";
 import {useAppDispatch} from "@/common/hooks/useAppDispatch.ts";
-import {changeThemeModeAC} from "@/app/app-reducer.ts";
+import {changeThemeModeAC, selectorThemeMode} from "@/app/app-slice.ts";
 import {useAppSelector} from "@/common/hooks/useAppSelector.ts";
-import {selectorThemeMode} from "@/app/app-selectors.ts";
+
 
 export const Header = () => {
     const themeMode = useAppSelector(selectorThemeMode)
