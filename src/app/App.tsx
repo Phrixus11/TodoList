@@ -7,12 +7,12 @@ import {getTheme} from "@/common/theme/theme";
 import {Header} from "@/common/components/Header/Header.tsx";
 import Box from '@mui/material/Box';
 import {Main} from "@/app/Main.tsx";
-import {selectorThemeMode} from "@/app/app-slice";
+import {selectThemeMode} from "@/app/app-slice";
 
 
 export const App = () => {
 
-  const themeMode = useAppSelector(selectorThemeMode)
+  const themeMode = useAppSelector(selectThemeMode)
   const theme = getTheme(themeMode)
 
 // <CssBaseline/>  - комппонент, скидывающий базовые стили CSS

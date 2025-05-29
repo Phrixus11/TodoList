@@ -3,7 +3,7 @@ import {AddItemForm} from "@/common/components/AddItemForm/AddItemForm";
 import {Tasks} from "@/features/todolists/ui/Todolists/TodolistItem/Tasks/Tasks.tsx";
 import {FilterButton} from "./FilterButton/FilterButton.tsx";
 import {type DomainTodolist} from "@/features/todolists/model/todolists-slice.ts";
-import {createTaskAC} from "@/features/todolists/model/tasks-slice.ts";
+import {createTaskTC} from "@/features/todolists/model/tasks-slice.ts";
 import {useAppDispatch} from "@/common/hooks/useAppDispatch.ts";
 
 
@@ -18,7 +18,7 @@ export const TodolistItem = ({todolist}: TodolistItemPropsType) => {
 
 
     const createTaskHandler = (title: string) => {
-        const action = createTaskAC({todolistId: id, title})
+        const action = createTaskTC({todolistId: id, title})
         dispatch(action)
     }
 

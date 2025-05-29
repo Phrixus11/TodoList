@@ -12,11 +12,7 @@ export const tasksApi = {
   deleteTask({ taskId, todolistId }: { taskId: string; todolistId: string }) {
     return instance.delete<BaseResponse>(`/todo-lists/${todolistId}/tasks/${taskId}`)
   },
-
-  changeTaskTitle({ taskId, todolistId, model }: { taskId: string; model: UpdateTaskModel; todolistId: string }) {
-    return instance.put<BaseResponse<{ item: DomainTask }>>(`/todo-lists/${todolistId}/tasks/${taskId}`, model)
-  },
-  changeTaskStatus({ taskId, todolistId, model }: { taskId: string; model: UpdateTaskModel; todolistId: string }) {
+  updateTask({ taskId, todolistId, model }: { taskId: string; model: UpdateTaskModel; todolistId: string }) {
     return instance.put<BaseResponse<{ item: DomainTask }>>(`/todo-lists/${todolistId}/tasks/${taskId}`, model)
   },
 }
