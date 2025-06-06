@@ -8,6 +8,7 @@ import {Header} from "@/common/components/Header/Header.tsx";
 import Box from '@mui/material/Box';
 import {Main} from "@/app/Main.tsx";
 import {selectThemeMode} from "@/app/app-slice";
+import {ErrorSnackbar} from "@/common/components/ErrorSnackbar/ErrorSnackbar";
 
 
 export const App = () => {
@@ -24,6 +25,7 @@ export const App = () => {
             <Header/>
           </Box>
           <Main/>
+          <ErrorSnackbar/>
         </ThemeProvider>
       </div>
   )

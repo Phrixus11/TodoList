@@ -9,3 +9,4 @@ export const getListItemSx = (isDone: boolean): SxProps => ({
     textDecoration: isDone ? 'line-through' : 'none',
     opacity: isDone ? 0.5 : 1,
 })
+
