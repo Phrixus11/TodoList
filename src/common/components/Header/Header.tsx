@@ -11,6 +11,8 @@ import {useAppDispatch} from "@/common/hooks/useAppDispatch.ts";
 import {changeThemeModeAC, selectStatus, selectThemeMode} from "@/app/app-slice.ts";
 import {useAppSelector} from "@/common/hooks/useAppSelector.ts";
 import LinearProgress from '@mui/material/LinearProgress'
+import {useEffect} from "react";
+import {loadState, saveState} from "@/common/utils/localStorage";
 
 
 export const Header = () => {
@@ -19,7 +21,14 @@ export const Header = () => {
     const theme = useTheme();
     const dispatch = useAppDispatch()
 
-    const changeThemeModeHandler = () => dispatch(changeThemeModeAC({themeMode: themeMode === "light"? "dark" : "light"}))
+    useEffect(() => {
+        dispatch(changeThemeModeAC({themeMode: loadState('themeMode')}))
+    }, [])
+
+    const changeThemeModeHandler = () => {
+        dispatch(changeThemeModeAC({themeMode: themeMode === "light" ? "dark" : "light"}))
+        saveState('themeMode', themeMode === "light" ? "dark" : "light")
+    }
 
     return (
         <AppBar position="fixed">
@@ -32,7 +41,7 @@ export const Header = () => {
                         <MenuButton background={theme.palette.secondary.dark}>Sign in</MenuButton>
                         <MenuButton>Sign up</MenuButton>
                         <MenuButton>Faq</MenuButton>
-                        <Switch onChange={changeThemeModeHandler}/>
+                        <Switch onChange={changeThemeModeHandler} checked={themeMode === 'dark'}/>
                     </Box>
                 </Container>
             </Toolbar>

@@ -1,12 +1,9 @@
-import { z } from 'zod'
+import { z } from 'zod/v4'
 
 export const loginSchema = z.object({
-  email: z.string()
-      .min(1, { message: 'Email is required' })
-      .email({ message: 'Incorrect email address' }),
-  password: z.string()
-      .min(5, { message: 'password min 5 symbols' }),
+  email: z.email({ error: 'Incorrect email address' }),
+  password: z.string().min(3, { error: 'Password must be at least 3 characters long' }),
   rememberMe: z.boolean(),
 })
 
-export type Inputs = z.infer<typeof loginSchema>
+export type loginInputs = z.infer<typeof loginSchema>

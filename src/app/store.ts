@@ -2,6 +2,8 @@ import {configureStore} from '@reduxjs/toolkit'
 import {tasksReducer, tasksSlice} from '@/features/todolists/model/tasks-slice'
 import {todolistsReducer, todolistsSlice} from '@/features/todolists/model/todolists-slice'
 import {appReducer, appSlice} from "./app-slice.ts";
+import {saveState} from "@/common/utils/localStorage";
+
 
 // // объединение reducer'ов с помощью combineReducers
 // const rootReducer = combineReducers({
@@ -18,6 +20,12 @@ export const store = configureStore({
         [tasksSlice.name]: tasksReducer
     },
 })
+
+
+store.subscribe(() => {
+    saveState('store',store.getState().app.themeMode)
+});
+
 
 // автоматическое определение типа всего объекта состояния
 export type RootState = ReturnType<typeof store.getState>

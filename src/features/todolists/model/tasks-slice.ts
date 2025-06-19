@@ -1,9 +1,10 @@
 import {createTodolistTC, deleteTodolistTC} from "./todolists-slice";
 import {createAppSlice, handleServerAppError, handleServerNetworkError} from "@/common/utils";
 import {tasksApi} from "../api/tasksApi";
-import type {DomainTask} from "@/features/todolists/api/tasksApi.types";
+import {type DomainTask} from "@/features/todolists/api/tasksApi.types";
 import {changeAppStatusAC} from "@/app/app-slice";
 import {ResultCode} from "@/common/Enums";
+import {getTasksSchema} from "@/features/todolists/lib/schemas";
 
 
 export const tasksSlice = createAppSlice({
@@ -14,10 +15,14 @@ export const tasksSlice = createAppSlice({
       try {
         thunkAPI.dispatch(changeAppStatusAC({status: 'loading'}))
         const res = await tasksApi.getTasks(todolistId)
+        // // проверка респонса с помощью zod, чтолько для domainTasks
+        // domainTaskSchema.array().parse(res.data.items)
+        getTasksSchema.parse(res.data)
+
         thunkAPI.dispatch(changeAppStatusAC({status: 'succeeded'}))
         return {todolistId, tasks: res.data.items}
       } catch (e) {
-        thunkAPI.dispatch(changeAppStatusAC({status: 'failed'}))
+        handleServerNetworkError(thunkAPI.dispatch, e)
         return thunkAPI.rejectWithValue(e)
       }
     }, {
@@ -78,7 +83,7 @@ export const tasksSlice = createAppSlice({
       taskId: string,
       domainModel: DomainTask
     }, thunkAPI) => {
-      const {taskId,todolistId,domainModel} = args
+      const {taskId, todolistId, domainModel} = args
       try {
         const model = {
           description: domainModel.description,

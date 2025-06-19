@@ -6,6 +6,7 @@ import type {RequestStatus} from "@/common/types";
 import {ResultCode} from "@/common/Enums";
 import {handleServerNetworkError} from "@/common/utils/";
 import {handleServerAppError} from "@/common/utils/handleServerAppError";
+import {todolistSchema} from "@/features/todolists/lib/schemas";
 
 export const todolistsSlice = createAppSlice({
   name: 'todolists',
@@ -98,6 +99,8 @@ export const todolistsSlice = createAppSlice({
             try {
               dispatch(changeAppStatusAC({status: 'loading'}))
               const res = await todolistsApi.getTodolists()
+              // проверка респонса с помощью zod
+              todolistSchema.array().parse(res.data)
               dispatch(changeAppStatusAC({status: 'succeeded'}))
               return {todolists: res.data}
             } catch (e) {

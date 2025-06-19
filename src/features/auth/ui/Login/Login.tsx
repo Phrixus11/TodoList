@@ -11,7 +11,7 @@ import {useAppSelector} from "@/common/hooks";
 import {getTheme} from "@/common/theme/theme"
 import {Controller, type SubmitHandler, useForm} from "react-hook-form";
 import s from './Login.module.css'
-import {Inputs, loginSchema } from "../../lib/schemas"
+import {loginInputs, loginSchema } from "../../lib/schemas"
 import {zodResolver} from "@hookform/resolvers/zod";
 
 export const Login = () => {
@@ -24,8 +24,8 @@ export const Login = () => {
     formState: {errors},
     reset,
     control
-  } = useForm<Inputs>({resolver: zodResolver(loginSchema), defaultValues: {email: '', password: '', rememberMe: false}})
-  const onSubmit: SubmitHandler<Inputs> = (data) => {
+  } = useForm<loginInputs>({resolver: zodResolver(loginSchema), defaultValues: {email: '', password: '', rememberMe: false}})
+  const onSubmit: SubmitHandler<loginInputs> = (data) => {
     console.log(data)
     reset()
   }
