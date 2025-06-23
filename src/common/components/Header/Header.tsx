@@ -13,39 +13,59 @@ import {useAppSelector} from "@/common/hooks/useAppSelector.ts";
 import LinearProgress from '@mui/material/LinearProgress'
 import {useEffect} from "react";
 import {loadState, saveState} from "@/common/utils/localStorage";
+import {logoutTC, selectIsLoggedIn} from "@/features/auth/model/auth-slice";
+import {NavLink} from "react-router";
+import {Path} from "@/common/routing/Routing";
 
 
 export const Header = () => {
-    const themeMode = useAppSelector(selectThemeMode)
-    const status = useAppSelector(selectStatus)
-    const theme = useTheme();
-    const dispatch = useAppDispatch()
+  const themeMode = useAppSelector(selectThemeMode)
+  const status = useAppSelector(selectStatus)
+  const isLoggedIn = useAppSelector(selectIsLoggedIn)
+  const dispatch = useAppDispatch()
 
-    useEffect(() => {
-        dispatch(changeThemeModeAC({themeMode: loadState('themeMode')}))
-    }, [])
+  const theme = useTheme();
 
-    const changeThemeModeHandler = () => {
-        dispatch(changeThemeModeAC({themeMode: themeMode === "light" ? "dark" : "light"}))
-        saveState('themeMode', themeMode === "light" ? "dark" : "light")
-    }
 
-    return (
-        <AppBar position="fixed">
-            <Toolbar>
-                <Container sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-                    <IconButton color="inherit">
-                        <MenuIcon/>
-                    </IconButton>
-                    <Box>
-                        <MenuButton background={theme.palette.secondary.dark}>Sign in</MenuButton>
-                        <MenuButton>Sign up</MenuButton>
-                        <MenuButton>Faq</MenuButton>
-                        <Switch onChange={changeThemeModeHandler} checked={themeMode === 'dark'}/>
-                    </Box>
-                </Container>
-            </Toolbar>
-            {status === 'loading' && <LinearProgress/>}
-        </AppBar>
-    );
+  useEffect(() => {
+    dispatch(changeThemeModeAC({themeMode: loadState('themeMode')}))
+  }, [])
+
+  const changeThemeModeHandler = () => {
+    dispatch(changeThemeModeAC({themeMode: themeMode === "light" ? "dark" : "light"}))
+    saveState('themeMode', themeMode === "light" ? "dark" : "light")
+  }
+
+  const logoutHandler = () => {
+    dispatch(logoutTC())
+  }
+
+
+  return (
+      <AppBar position="fixed">
+        <Toolbar>
+          <Container sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+            <IconButton color="inherit">
+              <MenuIcon/>
+            </IconButton>
+            <Box>
+              {isLoggedIn && <MenuButton
+                  onClick={logoutHandler}
+                  background={theme.palette.secondary.dark}>Log out</MenuButton>}
+
+              <MenuButton size={'large'}
+                          background={theme.palette.secondary.dark}>
+                <NavLink to={Path.Faq}
+                         style={{
+                           color: 'inherit',
+                           textDecoration: 'none'
+                         }}>FAQ</NavLink>
+              </MenuButton>
+              <Switch onChange={changeThemeModeHandler} checked={themeMode === 'dark'}/>
+            </Box>
+          </Container>
+        </Toolbar>
+        {status === 'loading' && <LinearProgress/>}
+      </AppBar>
+  );
 };

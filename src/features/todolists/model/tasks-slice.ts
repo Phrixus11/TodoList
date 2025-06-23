@@ -5,6 +5,7 @@ import {type DomainTask} from "@/features/todolists/api/tasksApi.types";
 import {changeAppStatusAC} from "@/app/app-slice";
 import {ResultCode} from "@/common/Enums";
 import {getTasksSchema} from "@/features/todolists/lib/schemas";
+import {logoutTC} from "@/features/auth/model/auth-slice";
 
 
 export const tasksSlice = createAppSlice({
@@ -124,6 +125,9 @@ export const tasksSlice = createAppSlice({
         })
         .addCase(deleteTodolistTC.fulfilled, (state, action) => {
           delete state[action.payload.todolistId]
+        })
+        .addCase(logoutTC.fulfilled, () => {
+          return {}
         })
   },
   selectors: {

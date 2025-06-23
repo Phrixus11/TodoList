@@ -1,11 +1,13 @@
 import { styled } from '@mui/material/styles'
-import Button from '@mui/material/Button'
+import Button, { ButtonProps } from '@mui/material/Button'
 
 type Props = {
     background?: string
 }
 
-export const MenuButton = styled(Button)<Props>(({background, theme})=>({
+type MenuButtonProps = ButtonProps & Props
+
+export const MenuButton = styled(Button)<MenuButtonProps>(({background, theme})=>({
     minWidth: '110px',
     fontWeight: 'bold',
     boxShadow: `0 0 0 2px ${theme.palette.primary.light}, 4px 4px 0 0 ${theme.palette.primary.light}`,

@@ -7,16 +7,21 @@ import FormGroup from '@mui/material/FormGroup'
 import FormLabel from '@mui/material/FormLabel'
 import Grid from "@mui/material/Grid"
 import TextField from '@mui/material/TextField'
-import {useAppSelector} from "@/common/hooks";
+import {useAppDispatch, useAppSelector} from "@/common/hooks";
 import {getTheme} from "@/common/theme/theme"
 import {Controller, type SubmitHandler, useForm} from "react-hook-form";
 import s from './Login.module.css'
-import {loginInputs, loginSchema } from "../../lib/schemas"
+import {loginInputs, loginSchema} from "../../lib/schemas"
 import {zodResolver} from "@hookform/resolvers/zod";
+import {loginTC} from "@/features/auth/model/auth-slice";
+
 
 export const Login = () => {
   const themeMode = useAppSelector(selectThemeMode)
   const theme = getTheme(themeMode)
+  const dispatch = useAppDispatch()
+  // const isLoggedIn = useAppSelector(selectIsLoggedIn)
+  // const navigate = useNavigate()
 
   const {
     register,
@@ -24,11 +29,33 @@ export const Login = () => {
     formState: {errors},
     reset,
     control
-  } = useForm<loginInputs>({resolver: zodResolver(loginSchema), defaultValues: {email: '', password: '', rememberMe: false}})
+  } = useForm<loginInputs>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {email: '', password: '', rememberMe: false}
+  })
   const onSubmit: SubmitHandler<loginInputs> = (data) => {
-    console.log(data)
+
+    // // 3 var navigate
+    // dispatch(loginTC(data)).then((res) => {
+    //   navigate(Path.Main)
+    // })
+
+    dispatch(loginTC(data))
     reset()
   }
+
+  // // 1 var
+  // if (isLoggedIn) {
+  //   return <Navigate to={Path.Main} />
+  // }
+
+  // // 2 var
+  // useEffect(() => {
+  //   if (isLoggedIn) {
+  //     navigate(Path.Main)
+  //   }
+  // }, [isLoggedIn])
+
 
   return (
       <Grid container justifyContent={'center'}>
@@ -60,7 +87,8 @@ export const Login = () => {
                          {...register('email')}
                          error={!!errors.email}/>
               {errors.email && <span className={s.errorMessage}>{errors.email.message}</span>}
-              <TextField type="password" label="Password" margin="normal" {...register('password')} error={!!errors.password} />
+              <TextField type="password" label="Password" margin="normal" {...register('password')}
+                         error={!!errors.password}/>
               {errors.password && <span className={s.errorMessage}>{errors.password.message}</span>}
               <FormControlLabel
                   label="Remember me"

@@ -3,6 +3,7 @@ import {tasksReducer, tasksSlice} from '@/features/todolists/model/tasks-slice'
 import {todolistsReducer, todolistsSlice} from '@/features/todolists/model/todolists-slice'
 import {appReducer, appSlice} from "./app-slice.ts";
 import {saveState} from "@/common/utils/localStorage";
+import {authReducer, authSlice} from "@/features/auth/model/auth-slice";
 
 
 // // объединение reducer'ов с помощью combineReducers
@@ -17,7 +18,8 @@ export const store = configureStore({
     reducer: {
         [appSlice.name]: appReducer,
         [todolistsSlice.name]: todolistsReducer,
-        [tasksSlice.name]: tasksReducer
+        [tasksSlice.name]: tasksReducer,
+        [authSlice.name]: authReducer
     },
 })
 

@@ -10,21 +10,25 @@ import {createTodolistTC} from "@/features/todolists/model/todolists-slice";
 export const Main = () => {
 
 
-    const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch()
 
-    const createTodolist = (title: string) => {
-        const action = createTodolistTC({title})
-        dispatch(action)
-    }
+  const createTodolist = (title: string) => {
+    const action = createTodolistTC({title})
+    dispatch(action)
+  }
 
-    return (
-        <Container maxWidth="lg">
-            <Grid container sx={{p: '20px 0'}}>
-                <AddItemForm createItems={createTodolist} maxTitleLength={20}/>
-            </Grid>
-            <Grid container spacing={2}>
-                <Todolists/>
-            </Grid>
-        </Container>
-    );
+  // if (!isLoggedIn) {
+  //   return <Navigate to={Path.Login}/>
+  // }
+
+  return (
+      <Container maxWidth="lg">
+        <Grid container sx={{p: '20px 0'}}>
+          <AddItemForm createItems={createTodolist} maxTitleLength={20}/>
+        </Grid>
+        <Grid container spacing={2}>
+          <Todolists/>
+        </Grid>
+      </Container>
+  );
 };
