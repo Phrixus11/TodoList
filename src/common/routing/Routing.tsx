@@ -5,7 +5,9 @@ import {PageNotFound} from "@/common/components/PageNotFound/PageNotFound";
 import {ProtectedRoute} from "@/common/components/ProtectedRoute/ProtectedRoute";
 import {Faq} from "@/common/components/Faq/Faq";
 import {useAppSelector} from "@/common/hooks";
-import {selectIsLoggedIn} from "@/features/auth/model/auth-slice";
+import {selectIsLoggedIn} from "@/app/app-slice";
+
+
 
 export const Path = {
   Main: '/',

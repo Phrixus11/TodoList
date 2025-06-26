@@ -7,7 +7,6 @@ import {ResultCode} from "@/common/Enums";
 import {handleServerNetworkError} from "@/common/utils/";
 import {handleServerAppError} from "@/common/utils/handleServerAppError";
 import {todolistSchema} from "@/features/todolists/lib/schemas";
-import {logoutTC} from "@/features/auth/model/auth-slice";
 
 export const todolistsSlice = createAppSlice({
   name: 'todolists',
@@ -133,12 +132,7 @@ export const todolistsSlice = createAppSlice({
       }),
     }
   },
-  extraReducers: builder => {
-    builder
-        .addCase(logoutTC.fulfilled, () => {
-          return []
-        })
-  },
+
   selectors:
       {
         selectTodolists: (state) => state,

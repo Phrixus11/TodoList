@@ -8,14 +8,16 @@ import Switch from "@mui/material/Switch";
 import AppBar from "@mui/material/AppBar";
 import {useTheme} from "@mui/material/styles";
 import {useAppDispatch} from "@/common/hooks/useAppDispatch.ts";
-import {changeThemeModeAC, selectStatus, selectThemeMode} from "@/app/app-slice.ts";
+import {changeThemeModeAC, selectIsLoggedIn, selectStatus, selectThemeMode, setIsLoggedIn} from "@/app/app-slice.ts";
 import {useAppSelector} from "@/common/hooks/useAppSelector.ts";
 import LinearProgress from '@mui/material/LinearProgress'
 import {useEffect} from "react";
 import {loadState, saveState} from "@/common/utils/localStorage";
-import {logoutTC, selectIsLoggedIn} from "@/features/auth/model/auth-slice";
 import {NavLink} from "react-router";
 import {Path} from "@/common/routing/Routing";
+import {ResultCode} from "@/common/Enums";
+import {AUTH_TOKEN} from "@/common/constants";
+import {useLogoutMutation} from "@/features/auth/api/authApi";
 
 
 export const Header = () => {
@@ -25,7 +27,7 @@ export const Header = () => {
   const dispatch = useAppDispatch()
 
   const theme = useTheme();
-
+const [logoutMutation] = useLogoutMutation()
 
   useEffect(() => {
     dispatch(changeThemeModeAC({themeMode: loadState('themeMode')}))
@@ -37,7 +39,13 @@ export const Header = () => {
   }
 
   const logoutHandler = () => {
-    dispatch(logoutTC())
+    logoutMutation().then((res) => {
+      if (res?.data?.resultCode === ResultCode.Success) {
+        localStorage.removeItem(AUTH_TOKEN)
+        dispatch(setIsLoggedIn({isLoggedIn: false}))
+      }
+    })
+
   }
 
 

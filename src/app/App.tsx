@@ -5,26 +5,31 @@ import {useAppSelector} from '@/common/hooks/useAppSelector';
 import {getTheme} from "@/common/theme/theme";
 import {Header} from "@/common/components/Header/Header.tsx";
 import Box from '@mui/material/Box';
-import {selectThemeMode} from "@/app/app-slice";
+import {selectThemeMode, setIsLoggedIn} from "@/app/app-slice";
 import {ErrorSnackbar} from "@/common/components/ErrorSnackbar/ErrorSnackbar";
 import {Routing} from "@/common/routing/Routing";
-import {useAppDispatch} from '@/common/hooks';
 import {useEffect, useState} from "react";
-import {initializeAppTC} from "@/features/auth/model/auth-slice";
 import CircularProgress from '@mui/material/CircularProgress'
+import {useMeQuery} from "@/features/auth/api/authApi";
+import {ResultCode} from "@/common/Enums";
+import {useAppDispatch} from "@/common/hooks";
+
 
 
 export const App = () => {
   const [isInitialized, setIsInitialized] = useState(false)
-  const dispatch = useAppDispatch()
   const themeMode = useAppSelector(selectThemeMode)
   const theme = getTheme(themeMode)
+  const {data, isLoading} = useMeQuery()
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
-    dispatch(initializeAppTC()).finally(() => {
-      setIsInitialized(true)
-    })
-  }, [])
+    if (isLoading) return
+    setIsInitialized(true)
+    if (data?.resultCode === ResultCode.Success) {
+      dispatch(setIsLoggedIn({isLoggedIn: true}))
+    }
+  }, [data, isLoading])
 
   if (!isInitialized) {
     return (

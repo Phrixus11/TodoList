@@ -1,4 +1,4 @@
-import {selectThemeMode} from "@/app/app-slice"
+import {selectThemeMode, setIsLoggedIn} from "@/app/app-slice"
 import Button from '@mui/material/Button'
 import Checkbox from '@mui/material/Checkbox'
 import FormControl from '@mui/material/FormControl'
@@ -13,10 +13,13 @@ import {Controller, type SubmitHandler, useForm} from "react-hook-form";
 import s from './Login.module.css'
 import {loginInputs, loginSchema} from "../../lib/schemas"
 import {zodResolver} from "@hookform/resolvers/zod";
-import {loginTC} from "@/features/auth/model/auth-slice";
+import {useLoginMutation} from "@/features/auth/api/authApi";
+import {ResultCode} from "@/common/Enums";
+import {AUTH_TOKEN} from "@/common/constants";
 
 
 export const Login = () => {
+  const [loginMutation] = useLoginMutation()
   const themeMode = useAppSelector(selectThemeMode)
   const theme = getTheme(themeMode)
   const dispatch = useAppDispatch()
@@ -33,29 +36,16 @@ export const Login = () => {
     resolver: zodResolver(loginSchema),
     defaultValues: {email: '', password: '', rememberMe: false}
   })
+
   const onSubmit: SubmitHandler<loginInputs> = (data) => {
-
-    // // 3 var navigate
-    // dispatch(loginTC(data)).then((res) => {
-    //   navigate(Path.Main)
-    // })
-
-    dispatch(loginTC(data))
+    loginMutation(data).then((res) => {
+      if (res?.data?.resultCode === ResultCode.Success) {
+        localStorage.setItem(AUTH_TOKEN, res.data.data.token);
+        dispatch(setIsLoggedIn({isLoggedIn: true}))
+      }
+    })
     reset()
   }
-
-  // // 1 var
-  // if (isLoggedIn) {
-  //   return <Navigate to={Path.Main} />
-  // }
-
-  // // 2 var
-  // useEffect(() => {
-  //   if (isLoggedIn) {
-  //     navigate(Path.Main)
-  //   }
-  // }, [isLoggedIn])
-
 
   return (
       <Grid container justifyContent={'center'}>

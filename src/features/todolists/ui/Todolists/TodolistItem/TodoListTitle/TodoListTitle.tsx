@@ -1,12 +1,8 @@
 import IconButton from "@mui/material/IconButton";
 import {EditableSpan} from "@/common/components/EditableSpan/EditableSpan";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import {
-  changeTodolistTitleTC,
-  deleteTodolistTC,
-  type DomainTodolist,
-} from "@/features/todolists/model/todolists-slice.ts";
-import {useAppDispatch} from "@/common/hooks/useAppDispatch.ts";
+import {type DomainTodolist,} from "@/features/todolists/model/todolists-slice.ts";
+import {useChangeTodolistTitleMutation, useDeleteTodolistMutation} from "@/features/todolists/api/todolistsApi";
 
 type TodoListTitlePropsType = {
   todolist: DomainTodolist
@@ -15,15 +11,14 @@ type TodoListTitlePropsType = {
 
 export const TodoListTitle = ({todolist}: TodoListTitlePropsType) => {
   const {id, title, entityStatus} = todolist
-  const dispatch = useAppDispatch()
-
+  const [deleteTodolist] = useDeleteTodolistMutation()
+  const [changeTodolistTitle] = useChangeTodolistTitleMutation()
 
   const deleteTodolistHandler = () => {
-    const action = deleteTodolistTC({todolistId: id})
-    dispatch(action)
+    deleteTodolist(id)
   }
   const changeTodoListTitleHandler = (title: string) => {
-    dispatch(changeTodolistTitleTC({todolistId: id, title}))
+    changeTodolistTitle({todolistId: id, title})
   }
 
   return (
@@ -33,7 +28,7 @@ export const TodoListTitle = ({todolist}: TodoListTitlePropsType) => {
         <IconButton
             aria-label="delete"
             onClick={deleteTodolistHandler}
-            disabled={entityStatus === 'loading' }>
+            disabled={entityStatus === 'loading'}>
           <DeleteForeverIcon color="primary"/>
         </IconButton>
       </h3>
