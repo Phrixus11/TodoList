@@ -43,8 +43,8 @@ export const Login = () => {
         localStorage.setItem(AUTH_TOKEN, res.data.data.token);
         dispatch(setIsLoggedIn({isLoggedIn: true}))
       }
+      reset()
     })
-    reset()
   }
 
   return (
