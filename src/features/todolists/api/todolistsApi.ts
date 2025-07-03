@@ -2,6 +2,7 @@ import type {BaseResponse} from "@/common/types"
 import type {Todolist} from "./todolistsApi.types"
 import type {DomainTodolist} from "@/features/todolists/model/todolists-slice";
 import {baseApi} from "@/app/baseApi";
+import {instance} from "@/common/instance";
 
 
 // `createApi` - функция из `RTK Query`, позволяющая создать объект `API`
@@ -63,18 +64,18 @@ export const {useGetTodolistsQuery,
 
 
 
-// export const _todolistsApi = {
-//   getTodolists() {
-//     return instance.get<Todolist[]>("/todo-lists")
-//   },
-//   changeTodolistTitle(payload: { todolistId: string; title: string }) {
-//     const {todolistId, title} = payload
-//     return instance.put<BaseResponse>(`/todo-lists/${todolistId}`, {title})
-//   },
-//   createTodolist(title: string) {
-//     return instance.post<BaseResponse<{ item: Todolist }>>("/todo-lists", {title})
-//   },
-//   deleteTodolist(id: string) {
-//     return instance.delete<BaseResponse>(`/todo-lists/${id}`)
-//   },
-// }
+export const _todolistsApi = {
+  getTodolists() {
+    return instance.get<Todolist[]>("/todo-lists")
+  },
+  changeTodolistTitle(payload: { todolistId: string; title: string }) {
+    const {todolistId, title} = payload
+    return instance.put<BaseResponse>(`/todo-lists/${todolistId}`, {title})
+  },
+  createTodolist(title: string) {
+    return instance.post<BaseResponse<{ item: Todolist }>>("/todo-lists", {title})
+  },
+  deleteTodolist(id: string) {
+    return instance.delete<BaseResponse>(`/todo-lists/${id}`)
+  },
+}

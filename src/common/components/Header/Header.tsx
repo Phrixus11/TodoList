@@ -18,7 +18,7 @@ import {Path} from "@/common/routing/Routing";
 import {ResultCode} from "@/common/Enums";
 import {AUTH_TOKEN} from "@/common/constants";
 import {useLogoutMutation} from "@/features/auth/api/authApi";
-
+import {baseApi} from "@/app/baseApi";
 
 export const Header = () => {
   const themeMode = useAppSelector(selectThemeMode)
@@ -43,7 +43,12 @@ const [logoutMutation] = useLogoutMutation()
       if (res?.data?.resultCode === ResultCode.Success) {
         localStorage.removeItem(AUTH_TOKEN)
         dispatch(setIsLoggedIn({isLoggedIn: false}))
+
       }
+    }).then(() => {
+      // dispatch(baseApi.util.resetApiState()) // зачистка всего кэша RTK Query, минус, что этот запрос реализован как перезагрузка всего приложения и все запросы из App летят заного
+      // dispatch(todolistsApi.util.invalidateTags(['Todolist'])) // зачистка только кэша с Тудулистами
+      dispatch(baseApi.util.invalidateTags(['Todolist', 'Task'])) // зачистка кэша с Тудулистами и Тасками
     })
 
   }
@@ -69,6 +74,7 @@ const [logoutMutation] = useLogoutMutation()
                            textDecoration: 'none'
                          }}>FAQ</NavLink>
               </MenuButton>
+              <NavLink to={'/'}>MAIN</NavLink>
               <Switch onChange={changeThemeModeHandler} checked={themeMode === 'dark'}/>
             </Box>
           </Container>

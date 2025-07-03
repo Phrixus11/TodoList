@@ -1,5 +1,7 @@
-import {createSlice} from "@reduxjs/toolkit";
+import {createSlice, isFulfilled, isPending, isRejected} from "@reduxjs/toolkit";
 import type {RequestStatus} from "@/common/types";
+import {todolistsApi} from "@/features/todolists/api/todolistsApi";
+import {tasksApi} from "@/features/todolists/api/tasksApi";
 
 
 export const appSlice = createSlice({
@@ -12,7 +14,7 @@ export const appSlice = createSlice({
   },
   reducers: (create) => {
     return {
-      setIsLoggedIn: create.reducer<{isLoggedIn: boolean}>((state, action) => {
+      setIsLoggedIn: create.reducer<{ isLoggedIn: boolean }>((state, action) => {
         state.isLoggedIn = action.payload.isLoggedIn
       }),
       // reducer + action
@@ -26,6 +28,26 @@ export const appSlice = createSlice({
         state.error = action.payload.error
       })
     }
+  },
+  extraReducers: (builder) => {
+    builder
+        .addMatcher(
+            // (action) => {
+            //   return action.type.endsWith('/pending')
+            // } // можно использовать утилитную функцию RTK Query
+            isPending, (state, action) => {
+              if (todolistsApi.endpoints.getTodolists.matchPending(action)
+                  || tasksApi.endpoints.getTasks.matchPending(action)) {
+                return
+              }
+              state.status = "loading"
+            })
+        .addMatcher(isRejected, (state) => {
+          state.status = 'failed'
+        })
+        .addMatcher(isFulfilled, (state) => {
+          state.status = 'succeeded'
+        })
   },
   selectors: {
     selectThemeMode: (state) => state.themeMode,

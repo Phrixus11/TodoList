@@ -1,5 +1,5 @@
 import type {Todolist} from '@/features/todolists/api/todolistsApi.types'
-import {todolistsApi} from '@/features/todolists/api/todolistsApi'
+import {_todolistsApi} from '@/features/todolists/api/todolistsApi'
 import {createAppSlice} from '@/common/utils'
 import {changeAppStatusAC} from '@/app/app-slice'
 import type {RequestStatus} from "@/common/types";
@@ -18,7 +18,7 @@ export const todolistsSlice = createAppSlice({
           async (arg: { title: string }, thunkAPI) => {
             try {
               thunkAPI.dispatch(changeAppStatusAC({status: 'loading'}))
-              const res = await todolistsApi.createTodolist(arg.title)
+              const res = await _todolistsApi.createTodolist(arg.title)
                 //------- обработка ошибки
               if (res.data.resultCode === ResultCode.Success) {
                 thunkAPI.dispatch(changeAppStatusAC({status: 'succeeded'}))
@@ -43,7 +43,7 @@ export const todolistsSlice = createAppSlice({
         try {
           thunkAPI.dispatch(changeAppStatusAC({status: 'loading'}))
           thunkAPI.dispatch(changeTodolistEntityStatusAC({todolistId, entityStatus: 'loading'}))
-          const res = await todolistsApi.deleteTodolist(todolistId)
+          const res = await _todolistsApi.deleteTodolist(todolistId)
 
           if (res.data.resultCode === ResultCode.Success) {
             thunkAPI.dispatch(changeAppStatusAC({status: 'succeeded'}))
@@ -71,7 +71,7 @@ export const todolistsSlice = createAppSlice({
           }, thunkAPI) => {
             try {
               thunkAPI.dispatch(changeAppStatusAC({status: 'loading'}))
-              const res = await todolistsApi.changeTodolistTitle({todolistId, title})
+              const res = await _todolistsApi.changeTodolistTitle({todolistId, title})
 
               if (res.data.resultCode === ResultCode.Success) {
                 thunkAPI.dispatch(changeAppStatusAC({status: 'succeeded'}))
@@ -98,7 +98,7 @@ export const todolistsSlice = createAppSlice({
           async (_arg, {dispatch, rejectWithValue}) => {
             try {
               dispatch(changeAppStatusAC({status: 'loading'}))
-              const res = await todolistsApi.getTodolists()
+              const res = await _todolistsApi.getTodolists()
               // проверка респонса с помощью zod
               todolistSchema.array().parse(res.data)
               dispatch(changeAppStatusAC({status: 'succeeded'}))
@@ -144,14 +144,13 @@ export const todolistsReducer = todolistsSlice.reducer
 
 export const {
   changeTodolistFilterAC,
-  fetchTodolistsTC,
   createTodolistTC,
   deleteTodolistTC,
   changeTodolistTitleTC,
   changeTodolistEntityStatusAC
 } = todolistsSlice.actions
 
-export const {selectTodolists} = todolistsSlice.selectors
+
 
 export type FilterValuesType = 'All' | 'Active' | 'Completed'
 
