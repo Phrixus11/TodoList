@@ -1,5 +1,5 @@
 import List from "@mui/material/List";
-import {type DomainTodolist} from "@/features/todolists/model/todolists-slice";
+import {type DomainTodolist} from "@/features/todolists/lib/types";
 import {TaskItem} from "./TaskItem/TaskItem";
 import {type DomainTask, TaskStatus} from "@/features/todolists/api/tasksApi.types";
 import {useGetTasksQuery} from "@/features/todolists/api/tasksApi";

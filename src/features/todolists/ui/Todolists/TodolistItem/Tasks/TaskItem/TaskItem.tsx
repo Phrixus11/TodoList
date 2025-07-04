@@ -6,7 +6,7 @@ import IconButton from "@mui/material/IconButton";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import ListItem from "@mui/material/ListItem";
 import {ChangeEvent} from "react";
-import {type DomainTodolist} from "@/features/todolists/model/todolists-slice.ts";
+import {type DomainTodolist} from "@/features/todolists/lib/types";
 import {type DomainTask, TaskStatus} from "@/features/todolists/api/tasksApi.types";
 import {useDeleteTaskMutation, useUpdateTaskMutation} from "@/features/todolists/api/tasksApi";
 

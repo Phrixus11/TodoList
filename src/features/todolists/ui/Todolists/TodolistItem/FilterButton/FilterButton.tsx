@@ -1,11 +1,8 @@
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
-import {
-  type DomainTodolist,
-  FilterValuesType
-} from "@/features/todolists/model/todolists-slice.ts";
 import {useAppDispatch} from "@/common/hooks/useAppDispatch.ts";
 import {todolistsApi} from "@/features/todolists/api/todolistsApi";
+import {type DomainTodolist, type FilterValuesType} from "@/features/todolists/lib/types";
 
 
 type FilterButtonProps = {

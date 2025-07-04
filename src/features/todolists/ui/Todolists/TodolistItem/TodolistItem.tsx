@@ -2,7 +2,7 @@ import {TodoListTitle} from "./TodoListTitle/TodoListTitle.tsx";
 import {AddItemForm} from "@/common/components/AddItemForm/AddItemForm";
 import {Tasks} from "@/features/todolists/ui/Todolists/TodolistItem/Tasks/Tasks.tsx";
 import {FilterButton} from "./FilterButton/FilterButton.tsx";
-import {type DomainTodolist} from "@/features/todolists/model/todolists-slice.ts";
+import {type DomainTodolist} from "@/features/todolists/lib/types";
 import {useCreateTaskMutation} from "@/features/todolists/api/tasksApi";
 
 type TodolistItemPropsType = {

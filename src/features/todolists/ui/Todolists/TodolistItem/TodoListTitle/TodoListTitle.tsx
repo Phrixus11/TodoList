@@ -1,13 +1,13 @@
 import IconButton from "@mui/material/IconButton";
 import {EditableSpan} from "@/common/components/EditableSpan/EditableSpan";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import {type DomainTodolist,} from "@/features/todolists/model/todolists-slice.ts";
+import {type DomainTodolist} from "@/features/todolists/lib/types";
 import {
   todolistsApi,
   useChangeTodolistTitleMutation,
   useDeleteTodolistMutation
 } from "@/features/todolists/api/todolistsApi";
-import { useAppDispatch } from "@/common/hooks";
+import {useAppDispatch} from "@/common/hooks";
 import type {RequestStatus} from "@/common/types";
 
 type TodoListTitlePropsType = {
