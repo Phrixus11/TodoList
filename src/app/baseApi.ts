@@ -1,13 +1,14 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
 import {AUTH_TOKEN} from "@/common/constants";
 import {handleError} from "@/common/utils/handleError";
+import { baseQueryWithZodValidation } from '@/common/utils'
 
 export const baseApi = createApi({
   // `reducerPath` - имя `slice`, куда будут сохранены состояние и экшены для этого `API`
   reducerPath: "todolistsApi",
   tagTypes: ["Todolist", 'Task'],
   // `baseQuery` - конфигурация для `HTTP-клиента`, который будет использоваться для отправки запросов
-  baseQuery: async (args, api, extraOptions) => {
+  baseQuery: baseQueryWithZodValidation(async (args, api, extraOptions) => {
     // await new Promise((resolve) => setTimeout(resolve, 1000))
 
     const result = await fetchBaseQuery({
@@ -49,7 +50,7 @@ export const baseApi = createApi({
     handleError(api, result)
 
     return result
-  },
+  }),
   // baseQuery: fetchBaseQuery({
   //       baseUrl: import.meta.env.VITE_BASE_URL,
   //       prepareHeaders: (headers) => {
