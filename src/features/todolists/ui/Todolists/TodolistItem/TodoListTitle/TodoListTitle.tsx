@@ -29,7 +29,10 @@ export const TodoListTitle = ({todolist}: TodoListTitlePropsType) => {
     }))
   }
 
+
+  // 1 вариант Optimistic update в компоненте
   const deleteTodolistHandler = () => {
+
     changeTodoListStatus('loading')
     deleteTodolist(id).unwrap().catch(() => {
       changeTodoListStatus('idle')
