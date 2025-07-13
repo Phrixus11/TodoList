@@ -6,6 +6,7 @@ import { useGetTasksQuery } from '@/features/todolists/api/tasksApi'
 import { TasksSkeleton } from '@/features/todolists/ui/Todolists/TodolistItem/Tasks/TasksSkeleton/TasksSkeleton'
 import { useState } from 'react'
 import { TasksPagination } from './TasksPagination/TasksPagination'
+import { PAGE_SIZE } from '@/common/constants'
 
 type TaskListPropsType = {
   todolist: DomainTodolist
@@ -55,7 +56,7 @@ export const Tasks = ({ todolist }: TaskListPropsType) => {
     ) : (
       <>
         <List>{filteredTasks?.map((t) => <TaskItem key={t.id} task={t} todolist={todolist} />)}</List>
-        <TasksPagination totalCount={data?.totalCount || 0} page={page} setPage={setPage} />
+        {data && data.totalCount > PAGE_SIZE && <TasksPagination totalCount={data?.totalCount || 0} page={page} setPage={setPage} />}
       </>
     )
 

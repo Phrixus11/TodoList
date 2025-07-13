@@ -1,9 +1,7 @@
-import type {BaseResponse} from "@/common/types"
-import type {Todolist} from "./todolistsApi.types"
-import {baseApi} from "@/app/baseApi";
-import {instance} from "@/common/instance";
-import { DomainTodolist } from "../lib/types";
-
+import type { BaseResponse } from '@/common/types'
+import type { Todolist } from './todolistsApi.types'
+import { baseApi } from '@/app/baseApi'
+import { DomainTodolist } from '../lib/types'
 
 // `createApi` - функция из `RTK Query`, позволяющая создать объект `API`
 // для взаимодействия с внешними `API` и управления состоянием приложения
@@ -15,67 +13,67 @@ export const todolistsApi = baseApi.injectEndpoints({
     // Типизация аргументов (<возвращаемый тип, тип query аргументов (`QueryArg`)>)
     // `query` по умолчанию создает запрос `get` и указание метода необязательно
     getTodolists: build.query<DomainTodolist[], void>({
-      query: () => "todo-lists",
+      query: () => 'todo-lists',
       transformResponse: (todolists: Todolist[]): DomainTodolist[] => {
-        return todolists.map((todolist) => ({...todolist, filter: "All", entityStatus: "idle"}))
+        return todolists.map((todolist) => ({ ...todolist, filter: 'All', entityStatus: 'idle' }))
       },
-      providesTags: ['Todolist']
+      providesTags: ['Todolist'],
     }),
     createTodolist: build.mutation<BaseResponse<{ item: Todolist }>, string>({
       query: (title) => {
         return {
           method: 'post',
-          url: "/todo-lists",
-          body: {title}
+          url: '/todo-lists',
+          body: { title },
         }
       },
-      invalidatesTags: ['Todolist']
+      invalidatesTags: ['Todolist'],
     }),
     deleteTodolist: build.mutation<BaseResponse, string>({
+      async onQueryStarted(id: string, { dispatch, queryFulfilled, getState }) {
+        const patchResult = dispatch(
+          todolistsApi.util.updateQueryData('getTodolists', undefined, (state) => {
+            const index = state.findIndex((todolist) => todolist.id === id)
+            if (index !== -1) {
+              state.splice(index, 1)
+            }
+          }),
+        )
+        try {
+          await queryFulfilled
+        } catch {
+          const state = getState()
+          const res = todolistsApi.endpoints.getTodolists.select()(state)
+          const isExist = res.data?.some((tl) => tl.id === id)
+          if (!isExist) patchResult.undo()
+        }
+      },
       query: (id) => {
         return {
           method: 'delete',
           url: `/todo-lists/${id}`,
         }
       },
-      invalidatesTags: ['Todolist']
+      invalidatesTags: ['Todolist'],
     }),
     changeTodolistTitle: build.mutation<BaseResponse, { todolistId: string; title: string }>({
-      query: ({todolistId,title}) => {
+      query: ({ todolistId, title }) => {
         return {
           method: 'put',
           url: `/todo-lists/${todolistId}`,
-          body: {title},
+          body: { title },
         }
       },
-      invalidatesTags: ['Todolist']
+      invalidatesTags: ['Todolist'],
     }),
   }),
 })
 
 // `createApi` создает объект `API`, который содержит все эндпоинты в виде хуков,
 // определенные в свойстве `endpoints`
-export const {useGetTodolistsQuery,
+export const {
+  useGetTodolistsQuery,
   useCreateTodolistMutation,
   useDeleteTodolistMutation,
-  useChangeTodolistTitleMutation} = todolistsApi
-
-
-
-
-
-export const _todolistsApi = {
-  getTodolists() {
-    return instance.get<Todolist[]>("/todo-lists")
-  },
-  changeTodolistTitle(payload: { todolistId: string; title: string }) {
-    const {todolistId, title} = payload
-    return instance.put<BaseResponse>(`/todo-lists/${todolistId}`, {title})
-  },
-  createTodolist(title: string) {
-    return instance.post<BaseResponse<{ item: Todolist }>>("/todo-lists", {title})
-  },
-  deleteTodolist(id: string) {
-    return instance.delete<BaseResponse>(`/todo-lists/${id}`)
-  },
-}
+  useChangeTodolistTitleMutation,
+} = todolistsApi

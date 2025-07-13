@@ -36,7 +36,7 @@ export const TaskItem = ({todolist, task}: Props) => {
               checked={task.status === TaskStatus.Completed}
               onChange={changeTaskStatusHandler}
               size={"small"}/>
-          <EditableSpan maxTitleLength={12}
+          <EditableSpan maxTitleLength={30}
                         title={task.title}
                         changeTitleHandler={changeTaskTitleHandler}/>
         </Box>

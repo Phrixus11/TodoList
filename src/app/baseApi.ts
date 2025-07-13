@@ -1,12 +1,12 @@
-import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
-import {AUTH_TOKEN} from "@/common/constants";
-import {handleError} from "@/common/utils/handleError";
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { AUTH_TOKEN } from '@/common/constants'
+import { handleError } from '@/common/utils/handleError'
 import { baseQueryWithZodValidation } from '@/common/utils'
 
 export const baseApi = createApi({
   // `reducerPath` - имя `slice`, куда будут сохранены состояние и экшены для этого `API`
-  reducerPath: "todolistsApi",
-  tagTypes: ["Todolist", 'Task'],
+  reducerPath: 'todolistsApi',
+  tagTypes: ['Todolist', 'Task'],
   // `baseQuery` - конфигурация для `HTTP-клиента`, который будет использоваться для отправки запросов
   baseQuery: baseQueryWithZodValidation(async (args, api, extraOptions) => {
     // await new Promise((resolve) => setTimeout(resolve, 1000))
@@ -14,8 +14,8 @@ export const baseApi = createApi({
     const result = await fetchBaseQuery({
       baseUrl: import.meta.env.VITE_BASE_URL,
       prepareHeaders: (headers) => {
-        headers.set("API-KEY", import.meta.env.VITE_API_KEY)
-        headers.set("Authorization", `Bearer ${localStorage.getItem(AUTH_TOKEN)}`)
+        headers.set('API-KEY', import.meta.env.VITE_API_KEY)
+        headers.set('Authorization', `Bearer ${localStorage.getItem(AUTH_TOKEN)}`)
       },
     })(args, api, extraOptions)
 
@@ -60,6 +60,8 @@ export const baseApi = createApi({
   //     }),
   endpoints: () => ({}),
 
+  // установка времени жизни кэша, можно устанавливать на каждый запрос отдельно
+  // keepUnusedDataFor: 5
   // глобальный перезапрос данных при возврате фокуса в приложении, отправляет повторно все запросы, можно оформить локально через хуки
   // refetchOnFocus: true,
   // аналогично, только при потере и возврате интернет соединения
